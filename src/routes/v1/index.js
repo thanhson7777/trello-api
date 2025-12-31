@@ -2,7 +2,7 @@
  */
 import express from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { boardRouter } from './boardRoutes'
+import { boardRouter } from './boardRoute'
 
 const Router = express.Router()
 
