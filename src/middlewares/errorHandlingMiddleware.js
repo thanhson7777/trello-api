@@ -1,7 +1,7 @@
 /*
  */
 import { StatusCodes } from 'http-status-codes'
-// import { env } from '~/config/environment'
+import { env } from '~/config/environment'
 
 // Midleware xử lí lỗi tập trung trong ứng dụng backend NodeJS
 export const errorHandlingMiddleware = (err, req, res, next) => {
@@ -18,7 +18,8 @@ export const errorHandlingMiddleware = (err, req, res, next) => {
   // console.log('responseError: ', responseError)
 
   // Chỉ khi trong môi trường dev thì để stack trace để dễ dàng trong việc debug, không thì xóa đi
-  // if (env.BUILD_MODE !== 'dev') delete resposeError.stack
+  // console.log('env.BUILD_MODE: ', env.BUILD_MODE)
+  if (env.BUILD_MODE !== 'dev') delete responseError.stack
 
   // Trả resposeError vè phía frontend
   res.status(responseError.statusCode).json(responseError)
