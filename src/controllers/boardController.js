@@ -1,13 +1,13 @@
 /**
  */
 import { StatusCodes } from 'http-status-codes'
+import ApiError from '~/utils/ApiError'
 
 const createNew = async (req, res, next) => {
   try {
-    // eslint-disable-next-line no-console
-    console.log('req.body: ', req.body)
-    console.log('req.query: ', req.query)
-    console.log('req.params: ', req.params)
+    // console.log('req.body: ', req.body)
+    // console.log('req.query: ', req.query)
+    // console.log('req.params: ', req.params)
     // console.log('req.files: ', req.files)
     // console.log('req.cookies: ', req.cookies)
     // console.log('req.jwtDecoded: ', req.jwtDecoded)
@@ -15,13 +15,9 @@ const createNew = async (req, res, next) => {
     // Điều hướng dữ liệu sang tầng service
 
     // Kết quả trả về
-
+    // throw new ApiError(StatusCodes.BAD_GATEWAY, 'Test error')
     res.status(StatusCodes.CREATED).json({ message: 'POST from controller: API create new board' })
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      errors: error.message
-    })
-  }
+  } catch (error) { next(error) }
 }
 
 export const boardController = {
