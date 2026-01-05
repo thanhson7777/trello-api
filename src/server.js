@@ -14,6 +14,7 @@ const START_SERVER = () => {
 
   // Use APIs V1
   app.use('/v1', APIs_V1)
+
   // Midleware xử lí lỗi tập trung
   app.use(errorHandlingMiddleware)
 
