@@ -3,6 +3,7 @@
 import Joi from 'joi'
 import { StatusCodes } from 'http-status-codes'
 import ApiError from '~/utils/ApiError'
+import { BOARD_TYPES } from '~/utils/constants'
 
 const createNew = async (req, res, next) => {
   // Note: Mặc định chúng ta không cần custom message ở phía backend vì ở phía Frontend đã validate và custom rồi
@@ -23,7 +24,8 @@ const createNew = async (req, res, next) => {
       'string.min': 'Description length must be at least 3 characters long',
       'string.max': 'Description length must be less than or equal to 50 characters long',
       'string.trim': 'Description must not have leading or trailing whitespace'
-    })
+    }),
+    type: Joi.string().valid(BOARD_TYPES.PUBLIC, BOARD_TYPES.PRIVATE).required()
   })
 
   try {

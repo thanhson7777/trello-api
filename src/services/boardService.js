@@ -5,6 +5,7 @@ import { slugify } from '~/utils/formatters'
 import { boardModel } from '~/models/boardModel'
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
+import { cloneDeep } from 'lodash'
 
 const createNew = async (reqBody) => {
   try {
@@ -39,7 +40,22 @@ const getDetails = async (boardId) => {
     if (!board) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found!!')
     }
-    return board
+
+    // 1. Deep clone ra một cái mới để xử lí, không ảnh hưởng đến board ban đầu
+    const resBoard = cloneDeep(board)
+    // 2. Đưa card về đúng column
+    resBoard.columns.forEach(column => {
+      // Trong MongoDb  có suport method .equal cho kiểu objectId
+      column.cards = resBoard.cards.filter(card => card.columnId.equals(column._id))
+
+      // do id của card có kiểu dữ liệu là objectId nên phải chuyển sang string để so sánh của javascript
+      // column.cards = resBoard.cards.filter(card => card.columnId.toString() === column._id.toString())
+    })
+
+    // 3. Xóa mảng card khỏi board ban đầu
+    delete resBoard.cards
+
+    return resBoard
   } catch (error) { throw error }
 }
 
