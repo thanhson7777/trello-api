@@ -16,10 +16,10 @@ Router.get('/status', (req, res) => {
 // Những API liên quan đến board
 Router.use('/boards', boardRoute)
 
-// Những API liên quan đến board
+// Những API liên quan đến column
 Router.use('/columns', columnRoute)
 
-// Những API liên quan đến board
+// Những API liên quan đến card
 Router.use('/cards', cardRoute)
 
 export const APIs_V1 = Router
