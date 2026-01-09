@@ -44,9 +44,9 @@ const createNew = async (data) => {
 
 const findOneById = (id) => {
   try {
-    console.log('Id: ', id)
-    const testId = new ObjectId(String(id))
-    console.log('tesstId: ', testId)
+    // console.log('Id: ', id)
+    // const testId = new ObjectId(String(id))
+    // console.log('tesstId: ', testId)
     const result = GET_DB().collection(BOARD_COLLECTION_NAME).findOne({ _id: new ObjectId(String(id)) })
     return result
   } catch (error) { throw new Error(error) }
