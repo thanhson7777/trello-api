@@ -14,7 +14,7 @@ const COLUMN_COLLECTION_SCHEMA = Joi.object({
     Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE)
   ).default([]),
 
-  createddAt: Joi.date().timestamp('javascript').default(Date.now),
+  createdAt: Joi.date().timestamp('javascript').default(Date.now),
   updatedAt: Joi.date().timestamp('javascript').default(null),
   _destroy: Joi.boolean().default(false)
 })
@@ -50,7 +50,7 @@ const pushCardOrderIds = async (card) => {
       { $push: { cardOrderIds: new ObjectId(String(card._id)) } },
       { returnDocument: 'after' }
     )
-    return result.value
+    return result
   } catch (error) { throw new Error(error) }
 }
 
