@@ -6,9 +6,8 @@ import ApiError from '~/utils/ApiError'
 // Cấu hình CORD option
 export const corsOptions = {
   origin: function (origin, callback) {
-    // Cho phép việc gọi API bằng Postman trên môi trường dev, sử dụng postman thì origin có giá trị là undefine
-    // console.log('origin: ', origin)
-    if (!origin && env.BUILD_MODE === 'dev') {
+    // Cho phép việc gọi API bằng Postman trên môi trường dev
+    if (env.BUILD_MODE === 'dev') {
       return callback(null, true)
     }
 
@@ -16,6 +15,8 @@ export const corsOptions = {
     if (WHITELIST_DOMAINS.includes(origin)) {
       return callback(null, true)
     }
+
+    // Ngược lại là trường hợp production
 
     // Nếu domain không được chấp nhập thì sẽ trả về lỗi
     return callback(new ApiError(StatusCodes.FORBIDDEN, `${origin} not allowed by our cors publicy`))
