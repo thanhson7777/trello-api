@@ -36,9 +36,9 @@ const createNew = async (data) => {
   } catch (error) { throw new Error(error) }
 }
 
-const findOneById = (id) => {
+const findOneById = async (id) => {
   try {
-    const result = GET_DB().collection(CARD_COLLECTION_NAME).findOne({ _id: new ObjectId(String(id)) })
+    const result = await GET_DB().collection(CARD_COLLECTION_NAME).findOne({ _id: new ObjectId(String(id)) })
     return result
   } catch (error) { throw new Error(error) }
 }
