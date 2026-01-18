@@ -45,12 +45,12 @@ const createNew = async (data) => {
   } catch (error) { throw new Error(error) }
 }
 
-const findOneById = (id) => {
+const findOneById = async (id) => {
   try {
     // console.log('Id: ', id)
     // const testId = new ObjectId(String(id))
     // console.log('tesstId: ', testId)
-    const result = GET_DB().collection(BOARD_COLLECTION_NAME).findOne({ _id: new ObjectId(String(id)) })
+    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({ _id: new ObjectId(String(id)) })
     return result
   } catch (error) { throw new Error(error) }
 }
