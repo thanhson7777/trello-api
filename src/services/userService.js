@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { pickUser } from '~/utils/formatters'
 import { WEBSITE_DOMAIN } from '~/utils/constants'
 import { BrevoProvider } from '~/providers/BrevoProvider'
+import { env } from '~/config/environment'
+import { JwtProvider } from '~/providers/JwtProvider'
 
 const createNew = async (reqBody) => {
   try {
@@ -46,6 +48,69 @@ const createNew = async (reqBody) => {
   } catch (error) { throw error }
 }
 
+const verifyAccount = async (reqBody) => {
+  try {
+    // Query user  tron database
+    const existUser = await userModel.findOneByEmail(reqBody.email)
+
+    // Các bước kiểm tra cần thiết
+    if (!existUser) throw new ApiError(StatusCodes.NOT_FOUND, 'Account not found!')
+    if (existUser.isActive) throw new ApiError(StatusCodes.NOT_ACCEPTABLE, 'Your account is already active!')
+    if (reqBody.token !== existUser.verifyToken) throw new ApiError(StatusCodes.NOT_ACCEPTABLE, 'Token is invalid!')
+
+    // Update lại thông tin user để verify tài khoản
+    const updateData = {
+      isActive: true,
+      verifyToken: null
+    }
+    // Update thông tin user
+    const updatedUser = await userModel.update(existUser._id, updateData)
+
+    // Trả về cho fontend những thông tin cần thiết
+    return pickUser(updatedUser)
+  } catch (error) { throw error }
+}
+
+const login = async (reqBody) => {
+  try {
+    // Query user  tron database
+    const existUser = await userModel.findOneByEmail(reqBody.email)
+
+    // Các bước kiểm tra cần thiết
+    if (!existUser) throw new ApiError(StatusCodes.NOT_FOUND, 'Account not found!')
+    if (!existUser.isActive) throw new ApiError(StatusCodes.NOT_ACCEPTABLE, 'Your account is not active!, Please check your email and verify your email before logging in!')
+
+    if (!bcryptjs.compareSync(reqBody.password, existUser.password)) {
+      throw new ApiError(StatusCodes.NOT_ACCEPTABLE, 'Your Eamil and Password is incorrect!')
+    }
+
+    // Tạo token đăng nhập để trả về cho frontend
+    // Thông tin đính kèm trong JWT sẽ bao gồm _id và email của user
+    const userInfo = {
+      _id: existUser._id,
+      email: existUser.email
+    }
+
+    // Tạo ra 2 loại token là accessToKen và refreshToken để trả về phía cho frontend
+    const accessToKen = await JwtProvider.generateToken(
+      userInfo,
+      env.ACCESS_TOKEN_SECRET_SIGNATURE,
+      env.ACCESS_TOKEN_LIFE
+    )
+
+    const refreshToken = await JwtProvider.generateToken(
+      userInfo,
+      env.REFRESH_TOKEN_SECRET_SIGNATURE,
+      env.REFRESH_TOKEN_LIFE
+    )
+
+    // Trả về thông tin của user kèm theo 2 token vừa tạo ra
+    return { accessToKen, refreshToken, ...pickUser(existUser) }
+  } catch (error) { throw error }
+}
+
 export const userService = {
-  createNew
+  createNew,
+  verifyAccount,
+  login
 }
