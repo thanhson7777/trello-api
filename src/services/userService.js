@@ -92,9 +92,10 @@ const login = async (reqBody) => {
     }
 
     // Tạo ra 2 loại token là accessToKen và refreshToken để trả về phía cho frontend
-    const accessToKen = await JwtProvider.generateToken(
+    const accessToken = await JwtProvider.generateToken(
       userInfo,
       env.ACCESS_TOKEN_SECRET_SIGNATURE,
+      // 5 // 5 giây
       env.ACCESS_TOKEN_LIFE
     )
 
@@ -105,7 +106,7 @@ const login = async (reqBody) => {
     )
 
     // Trả về thông tin của user kèm theo 2 token vừa tạo ra
-    return { accessToKen, refreshToken, ...pickUser(existUser) }
+    return { accessToken, refreshToken, ...pickUser(existUser) }
   } catch (error) { throw error }
 }
 
