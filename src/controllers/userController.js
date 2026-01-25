@@ -54,7 +54,7 @@ const logout = async (req, res, next) => {
 const refreshToken = async (req, res, next) => {
   try {
     const result = await userService.refreshToken(req.cookies?.refreshToken)
-    res.cookie('accessToken', result.refreshToken, {
+    res.cookie('accessToken', result.accessToKen, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
@@ -69,7 +69,9 @@ const refreshToken = async (req, res, next) => {
 const update = async (req, res, next) => {
   try {
     const userId = req.jwtDecoded._id
-    const updatedUser = await userService.update(userId, req.body)
+    const userAvatarFile = req.file
+    // console.log('🚀 ~ Controller ~ userAvatarFile:', userAvatarFile)
+    const updatedUser = await userService.update(userId, req.body, userAvatarFile)
     res.status(StatusCodes.OK).json(updatedUser)
   } catch (error) { next(error) }
 }
