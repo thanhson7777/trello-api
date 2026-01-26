@@ -13,8 +13,10 @@ const createNew = async (req, res, next) => {
     // console.log('req.cookies: ', req.cookies)
     // console.log('req.jwtDecoded: ', req.jwtDecoded)
 
+    const userId = req.jwtDecoded._id
+
     // Điều hướng dữ liệu sang tầng service
-    const createdBoard = await boardService.createNew(req.body)
+    const createdBoard = await boardService.createNew(userId, req.body)
     // Kết quả trả về
     // throw new ApiError(StatusCodes.BAD_GATEWAY, 'Test error')
     res.status(StatusCodes.CREATED).json(createdBoard)
@@ -23,8 +25,9 @@ const createNew = async (req, res, next) => {
 
 const getDetails = async (req, res, next) => {
   try {
+    const userId = req.jwtDecoded._id
     const boardId = req.params.id
-    const board = await boardService.getDetails(boardId)
+    const board = await boardService.getDetails(userId, boardId)
 
     res.status(StatusCodes.OK).json(board)
   } catch (error) { next(error) }
