@@ -10,7 +10,7 @@ import { columnModel } from '~/models/columnModel'
 import { cardModel } from '~/models/cardModel'
 import { DEFAULT_PAGE, DEFAULT_ITEM_PER_PAGE } from '~/utils/constants'
 
-const createNew = async (reqBody) => {
+const createNew = async (userId, reqBody) => {
   try {
     // Xử lí logic dữ liệu tùy đặc thù dự án
     const newBoard = {
@@ -19,7 +19,7 @@ const createNew = async (reqBody) => {
     }
 
     // Gọi tới tầng Model để xử lí bản ghi newBoard vào trong database
-    const createdBoard = await boardModel.createNew(newBoard)
+    const createdBoard = await boardModel.createNew(userId, newBoard)
     // console.log('createdBoard: ', createdBoard)
 
     // Lấy bản ghi board sau khi gọi (tùy mục đích và tùy theo dự án)
@@ -36,10 +36,10 @@ const createNew = async (reqBody) => {
   }
 }
 
-const getDetails = async (boardId) => {
+const getDetails = async (userId, boardId) => {
   try {
     // console.log(boardId)
-    const board = await boardModel.getDetails(boardId)
+    const board = await boardModel.getDetails(userId, boardId)
     if (!board) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found!!')
     }
