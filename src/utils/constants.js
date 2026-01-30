@@ -16,3 +16,13 @@ export const WEBSITE_DOMAIN = (env.BUILD_MODE === 'production') ? env.WEBISTE_DO
 
 export const DEFAULT_PAGE = 1
 export const DEFAULT_ITEM_PER_PAGE = 12
+
+export const INVATATION_TYPE = {
+  BOARD_INVITATION: 'BOARD_INVITATION'
+}
+
+export const BOARD_INVATION_STATUS = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+}
