@@ -6,6 +6,7 @@ import { boardRoute } from './boardRoute'
 import { columnRoute } from './columnRoute'
 import { cardRoute } from './cardRoute'
 import { userRoute } from './userRoute'
+import { invitationRoute } from './invitationRoute'
 
 
 const Router = express.Router()
@@ -26,5 +27,8 @@ Router.use('/cards', cardRoute)
 
 // Những API liên quan đến users
 Router.use('/users', userRoute)
+
+// Những API liên quan đến invatation user
+Router.use('/invitations', invitationRoute)
 
 export const APIs_V1 = Router

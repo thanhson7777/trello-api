@@ -16,7 +16,7 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({
   slug: Joi.string().required().min(3).trim().strict(),
   description: Joi.string().required().min(3).max(256).trim().strict(),
 
-  type: Joi.string().valid(BOARD_TYPES.PUBLIC, BOARD_TYPES.PRIVATE).required(),
+  type: Joi.string().required().valid(...Object.values(BOARD_TYPES)),
 
   columnOrderIds: Joi.array().items(
     Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE)
@@ -63,9 +63,6 @@ const createNew = async (userId, data) => {
 
 const findOneById = async (id) => {
   try {
-    // console.log('Id: ', id)
-    // const testId = new ObjectId(String(id))
-    // console.log('tesstId: ', testId)
     const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({ _id: new ObjectId(String(id)) })
     return result
   } catch (error) { throw new Error(error) }
