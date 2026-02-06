@@ -96,13 +96,18 @@ const moveCardToDifferentColumn = async (reqBody) => {
   } catch (error) { throw error }
 }
 
-const getBoards = async (userId, page, itemsPerPage) => {
+const getBoards = async (userId, page, itemsPerPage, queryFilter) => {
   try {
     // Nếu không có giá trị của page và itemsPerPage ở frontend thì backend luôn để phải để giá trị mặc định
     if (!page) page = DEFAULT_PAGE
     if (!itemsPerPage) itemsPerPage = DEFAULT_ITEM_PER_PAGE
 
-    const results = boardModel.getBoards(userId, parseInt(page, 10), parseInt(itemsPerPage, 10))
+    const results = boardModel.getBoards(
+      userId,
+      parseInt(page, 10),
+      parseInt(itemsPerPage, 10),
+      queryFilter
+    )
 
     return results
   } catch (error) { throw error }

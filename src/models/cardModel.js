@@ -105,12 +105,12 @@ const updateMembers = async (cardId, incomingMemberInfo) => {
   try {
     let updateCondition = {}
     if (incomingMemberInfo.action === CARD_MEMBER_ACTIONS.ADD) {
-      console.log('push: ', incomingMemberInfo)
+      // console.log('push: ', incomingMemberInfo)
       updateCondition = { $push: { memberIds: new ObjectId(String(incomingMemberInfo.userId)) } }
     }
 
     if (incomingMemberInfo.action === CARD_MEMBER_ACTIONS.REMOVE) {
-      console.log('pull: ', incomingMemberInfo)
+      // console.log('pull: ', incomingMemberInfo)
       updateCondition = { $pull: { memberIds: new ObjectId(String(incomingMemberInfo.userId)) } }
     }
     const result = await GET_DB().collection(CARD_COLLECTION_NAME).findOneAndUpdate(
