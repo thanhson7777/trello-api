@@ -1,7 +1,7 @@
 // Định nghĩa class ApiError kế thừa  class error có sẵn
 class ApiError extends Error {
   constructor(statusCode, message) {
-    // Gọi tới hàm khởi tạo của lớp cha để sử dụng được this, 
+    // Gọi tới hàm khởi tạo của lớp cha để sử dụng được this,
     super(message)
 
     // Tên của cái custom Error này, nếu không có thì mặc định của nó là Error

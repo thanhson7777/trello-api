@@ -1,5 +1,3 @@
-/*
- */
 import { StatusCodes } from 'http-status-codes'
 import { env } from '~/config/environment'
 

@@ -82,7 +82,7 @@ const login = async (reqBody) => {
     if (!existUser.isActive) throw new ApiError(StatusCodes.NOT_ACCEPTABLE, 'Your account is not active!, Please check your email and verify your email before logging in!')
 
     if (!bcryptjs.compareSync(reqBody.password, existUser.password)) {
-      throw new ApiError(StatusCodes.NOT_ACCEPTABLE, 'Your Eamil and Password is incorrect!')
+      throw new ApiError(StatusCodes.NOT_ACCEPTABLE, '  !')
     }
 
     // Tạo token đăng nhập để trả về cho frontend
