@@ -80,14 +80,3 @@ const START_SERVER = () => {
     process.exit(0)
   }
 })()
-
-// // Chỉ khi kết nối đến database thành công thì mới start server backend lên
-// console.log('1. Connecting to MongoDB Cloud Atlas...')
-// CONNECT_DB()
-//   .then(() => console.log('2. Connected to MongoDB cloud Atlas'))
-//   .then(() => START_SERVER())
-//   .catch(error => {
-//     console.log(error)
-//     process.exit(0)
-//   })
-
